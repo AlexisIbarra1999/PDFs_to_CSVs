@@ -1,0 +1,59 @@
+from pikepdf import Pdf, OutlineItem
+pdf = Pdf.open('document.pdf')
+with pdf.open_outline() as outline:
+outline.root.extend([
+# Page counts are zero-based
+    OutlineItem('Section One', 0),
+    OutlineItem('Section Two', 2),
+    OutlineItem('Section Three', 8)
+])
+
+
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument
+
+# Open a PDF document.
+fp = open(path, 'rb')
+parser = PDFParser(fp)
+password = ""
+document = PDFDocument(parser, password)
+# Get the outlines of the document.
+outlines = document.get_outlines()
+for(level, title, dest, a, se) in outlines:
+    if title == "3. 'Definitions' section":
+        print(title.split[0:])
+
+-------------------------------------------------------------
+os.getcwd()
+os.chdir(r'C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs')
+my_pdfs = os.getcwd()
+print('The Path is:\n', my_pdfs)
+
+print('----------------')
+# Read only PDFs documents
+print('PDFs documents:\n')
+
+for dfs in Path(r"C:\\Users\ \aibar\\PycharmProjects\\pythonProject\\PDFs").glob("*.pdf"):
+    # Open a PDF document.
+    dfs2 = tabula.read_pdf(dfs, pages="all")
+    bol = False
+    cont = 0
+    fp = open(dfs, 'rb')
+    parser = PDFParser(fp)
+    password = ""
+    document = PDFDocument(parser, password)
+    # Get the outlines of the document.
+    outlines = document.get_outlines()
+    for (level, title, dest, a, se) in outlines:
+        if title == "3. 'Definitions' section":
+            bol = True
+        elif title == "Index":
+            bol = False
+        if bol:
+            cont = cont + 1
+            print(' '.join(title.split(' ')[0:]))
+    print(cont)
+    print(len(dfs2))
+    print(len(dfs2) - cont)
+    variable = dfs[len(dfs2) - cont: -1]
+    print(variable)

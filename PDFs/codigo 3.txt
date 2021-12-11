@@ -1,0 +1,26 @@
+path = r"C:\Users\aibar\PycharmProjects\pythonProject\PDFs\ab.pdf"
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument
+
+dfs = tabula.read_pdf(path, pages="all")
+# Open a PDF document.
+bol = False
+cont = 0
+fp = open(path, 'rb')
+parser = PDFParser(fp)
+password = ""
+document = PDFDocument(parser, password)
+# Get the outlines of the document.
+outlines = document.get_outlines()
+for(level,title,dest,a,se) in outlines:
+    if title == "3. 'Definitions' section":
+        bol = True
+    elif title == "Index":
+        bol = False
+    if bol:
+        cont = cont + 1
+        print (' '.join(title.split(' ')[0:]))
+print(cont)
+print(len(dfs))
+print(len(dfs) - cont)
+print(dfs[len(dfs) - cont: -1])

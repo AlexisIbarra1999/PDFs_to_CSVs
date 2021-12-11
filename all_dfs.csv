@@ -1,0 +1,64 @@
+Definitions
+
+Table,Unnamed: 0,Unnamed: 1
+Owner,Name,Comment
+AB,TCNTL,"This is a control table in Automatic Billingfor the next program, pattern for a store,warehouse and status condition. When tableis done for a store, the billing clerk needs toknow if the items billed actually gotprocessed before an invoice can be cr"
+AB,TEXPITEM,"This table contains all stores to be billed fora particular billing cycle."
+AB,TPATT,"This table contains the customized patternsused to select particular stores for a billingcycle"
+AB,TPROG,"This table contains the program data used todescribe billing criteria."
+AB,TPROGITM,"This table contains all the items to be billedfor one or more stores during a billing cycle."
+
+"Column(s) of ""TCNTL"" Table",Unnamed: 0
+Name,Comment
+CNTL_ID,"The value AUTOBILL indicates the record belongs to AutomaticBilling."
+CNTL_NEXT_PROG_NBR,"The next sequential identifier to be assigned to a program identifierwhich is used throughout the billing cycle."
+CNTL_NEXT_PATT_NBR,"The next sequential pattern identifier to be assigned for selecting thecriteria to be used in determining which stores to bill."
+CNTL_OPEN_ORD_STR,Not used.
+CNTL_OPEN_ORD_WHSE,Not used.
+CNTL_OPEN_ORD_FLG,Not used.
+
+"Column(s) of ""TEXPITEM"" Table",Unnamed: 0
+Name,Comment
+EXP_STORE_NBR,The store identifier.
+EXP_PROG_NBR,The program identifier.
+EXP_ITEM_NBR,"A system-generated MSI identifier used to track all of the items in asingle billing."
+EXP_PATT_NBR,"A sequential  system-generated identifier assigned to the criteriapattern that is used to define the stores to be billed."
+EXP_QTY_ORDERED,The quantity ordered.
+EXP_QTY_SHIPPED,The quantity shipped.
+EXP_RETRIES,The quantity of attempts to bill the things found in a single cycle.
+EXP_LST_SHIPPED,"The previous date when any items were shipped during the billingcycle."
+EXP_SHIP_DATE,The date of the most recent shipment.
+EXP_STATUS_FLAG,"Indicates the status of the store program item with values blank, C, Dand S = ."
+EXP_STATUS_DATE,The date when the status for the store program item was last updated.
+
+"Column(s) of ""TPATT"" Table",Unnamed: 0
+Name,Comment
+DIST_PATT_NBR,The pattern identifier assigned by the system.
+DIST_PATT_TYPE,"The pattern type where WH = Warehouse, SS =Store size, CC=Climate code, SC=State code, SN=Store identifier, PT=Prototype,AD=ADI, EC=End caps, PN=Planogram items, ST=Store Type,ZC=Zip code, SV=Sales volume, OT=Order type, SE=Store entryand PL=Planogram"
+DIST_PATT_SYMBOL,"The selection type where G=Greater than, L =Less than, E=Equal to,X=eXcluding and I=Including."
+DIST_PATT_FROM,The store identifier or low limit of range store identifiers.
+DIST_PATT_TO,The high limit of range of store identifiers.
+DIST_PATT_DATE,The date added
+DIST_PATT_DESC,The user description
+
+"Column(s) of ""TPROG"" Table",Unnamed: 0
+Name,Comment
+MAST_PROG_NBR,The program identifier assigned by the system
+MAST_START_DATE,The billing start date.
+MAST_END_DATE,The billing end date.
+MAST_PROG_TYPE,The program type assigned by the user for identification.
+MAST_BILL_TYPE,The billing type where R= Regular and S=Separate.
+MAST_BILL_CYCLE,The billing cycle where R=Regular and I=Immediate
+MAST_DIST_PATT,The pattern identifier assigned by the user to retrieve certain stores.
+MAST_BKORDR_TRIES,The quantity of times to retry billing an order.
+MAST_ENTRY_DATE,The date entered.
+MAST_CHG_DATE,The date changed.
+MAST_CURR_STATUS,"The current status where EN=Entered, RL=Released, XE=eXplodedErrors, HD=on Hold, MP=Model Program, PN=explode Planogramitems, PH=Partial shipment Held, PC=Partial shipment Canceled,ER=Entered for Release, XS=eXploded Successfully and XC="
+MAST_PROG_NAME,The definition of program assigned by user.
+MAST_PULL_WHSE,"The override warehouse used to bill stores from theLexingtondistribution center or Express Parts with Values 22 or 91. Thisoption overrides the normal distribution center in which the items arepulled."
+MAST_FORCAST_UPD,Not used.
+MAST_USERID,The user identification logon id.
+MAST_RESERVE_FLAG,"Indicates whether or not automatic billing deals with store reserveswhere Y=yes."
+MAST_RESV_STRT_DTE,The reserve inventory start date.
+MAST_RESV_END_DATE,The reserve inventory end date.
+

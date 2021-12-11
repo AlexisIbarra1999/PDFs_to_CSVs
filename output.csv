@@ -1,0 +1,322 @@
+"Table(s) of ""TCNTL"" Picture Object"
+Owner AB
+Name TCNTL
+"Comment This is a control table in Automatic Billing for the next program, pattern for a store, warehouse and"
+"status condition. When table is done for a store, the billing clerk needs to know if the items billed"
+actually got processed before an invoice can be cr
+"Column(s) of ""TCNTL"" Table",,
+Name Datatype,Null Option,Comment
+CNTL_ID CHAR(8),NOT NULL,The value AUTOBILL indicates
+"",,the record belongs to Automatic
+"",,Billing.
+CNTL_NEXT_PROG_NBR INTEGER,NOT NULL,The next sequential identifier to
+"",,be assigned to a program
+"",,identifier which is used
+"",,throughout the billing cycle.
+CNTL_NEXT_PATT_NBR CHAR(6),NOT NULL,The next sequential pattern
+"",,identifier to be assigned for
+"",,selecting the criteria to be used
+"",,in determining which stores to
+"",,bill.
+CNTL_OPEN_ORD_STR SMALLINT,NOT NULL,Not used.
+CNTL_OPEN_ORD_WHSE CHAR(2),NOT NULL,Not used.
+CNTL_OPEN_ORD_FLG CHAR(1),NOT NULL,Not used.
+"Child Relationship(s) of ""TCNTL"" Table"
+Alter Statement
+"Table(s) of ""TEXPITEM"" Picture Object",
+Owner,AB
+Name,TEXPITEM
+Comment,This table contains all stores to be billed for a particular billing cycle.
+"Column(s) of ""TEXPITEM"" Table",,,
+Name,Datatype,Null Option,Comment
+EXP_STORE_NBR,SMALLINT,NOT NULL,The store identifier.
+EXP_PROG_NBR,INTEGER,NOT NULL,The program identifier.
+EXP_ITEM_NBR,INTEGER,NOT NULL,"A system-generated MSI
+identifier used to track all of the
+items in a single billing."
+EXP_PATT_NBR,CHAR(6),NOT NULL,"A sequential  system-generated
+identifier assigned to the criteria
+pattern that is used to define the
+stores to be billed."
+EXP_QTY_ORDERED,SMALLINT,NOT NULL,The quantity ordered.
+EXP_QTY_SHIPPED,SMALLINT,NOT NULL,The quantity shipped.
+EXP_RETRIES,SMALLINT,NOT NULL,"The quantity of attempts to bill
+the things found in a single
+cycle."
+EXP_LST_SHIPPED,SMALLINT,NOT NULL,"The previous date when any
+items were shipped during the
+billing cycle."
+EXP_SHIP_DATE,DATE,NULL,"The date of the most recent
+shipment."
+EXP_STATUS_FLAG,CHAR(1),NOT NULL,"Indicates the status of the store
+program item with values blank,
+C, D and S = ."
+EXP_STATUS_DATE,DATE,NULL,"The date when the status for the
+store program item was last
+updated."
+"Index(s) of ""TEXPITEM"" Table"
+Create Statement
+""
+"CREATE UNIQUE INDEX EXPITMX1 ON TEXPITEM
+(
+EXP_STORE_NBR         ASC,
+EXP_PROG_NBR          ASC,
+EXP_ITEM_NBR          ASC
+)
+;"
+"CREATE INDEX EXPITMX2 ON TEXPITEM
+(
+EXP_PROG_NBR          ASC
+)
+;"
+"Child Relationship(s) of ""TEXPITEM"" Table"
+Alter Statement
+""
+""
+"Parent Table(s) of """" Child Relationship"
+Create Statement
+"Table(s) of ""TPATT"" Picture Object"
+Owner AB
+Name TPATT
+Comment This table contains the customized patterns used to select particular stores for a billing cycle
+"Column(s) of ""TPATT"" Table",,
+Name Datatype,Null Option,Comment
+DIST_PATT_NBR CHAR(6),NOT NULL,The pattern identifier assigned
+"",,by the system.
+DIST_PATT_TYPE CHAR(2),NOT NULL,The pattern type where WH =
+"",,"Warehouse, SS =Store size, CC="
+"",,"Climate code, SC=State code,"
+"",,"SN=Store identifier, PT="
+"",,"Prototype, AD=ADI, EC=End"
+"",,"caps, PN=Planogram items, ST="
+"",,"Store Type, ZC=Zip code, SV="
+"",,"Sales volume, OT=Order type,"
+"",,SE=Store entry and PL=
+"",,Planogram
+DIST_PATT_SYMBOL CHAR(1),NOT NULL,The selection type where G=
+"",,"Greater than, L =Less than, E="
+"",,"Equal to, X=eXcluding and I="
+"",,Including.
+DIST_PATT_FROM CHAR(8),NOT NULL,The store identifier or low limit
+"",,of range store identifiers.
+DIST_PATT_TO CHAR(8),NOT NULL,The high limit of range of store
+"",,identifiers.
+DIST_PATT_DATE DATE,NULL,The date added
+DIST_PATT_DESC CHAR(24),NOT NULL,The user description
+"Index(s) of ""TPATT"" Table"
+Create Statement
+CREATE INDEX PATTX1 ON TPATT
+(
+"DIST_PATT_NBRASC,"
+DIST_PATT_TYPEASC
+)
+;
+"Child Relationship(s) of ""TPATT"" Table"
+Alter Statement
+"Table(s) of ""TPROG"" Picture Object",
+Owner,AB
+Name,TPROG
+Comment,This table contains the program data used to describe billing criteria.
+"Column(s) of ""TPROG"" Table",,,
+Name,Datatype,Null Option,Comment
+MAST_PROG_NBR,INTEGER,NOT NULL,"The program identifier assigned
+by the system"
+MAST_START_DATE,DATE,NULL,The billing start date.
+MAST_END_DATE,DATE,NULL,The billing end date.
+MAST_PROG_TYPE,CHAR(3),NOT NULL,"The program type assigned by
+the user for identification."
+MAST_BILL_TYPE,CHAR(1),NOT NULL,"The billing type where R=
+Regular and S=Separate."
+MAST_BILL_CYCLE,CHAR(1),NOT NULL,"The billing cycle where R=
+Regular and I=Immediate"
+MAST_DIST_PATT,CHAR(6),NOT NULL,"The pattern identifier assigned
+by the user to retrieve certain
+stores."
+MAST_BKORDR_TRIES,SMALLINT,NOT NULL,"The quantity of times to retry
+billing an order."
+MAST_ENTRY_DATE,DATE,NULL,The date entered.
+MAST_CHG_DATE,DATE,NULL,The date changed.
+MAST_CURR_STATUS,CHAR(2),NOT NULL,"The current status where EN=
+Entered, RL=Released, XE=
+eXploded Errors, HD=on Hold,
+MP=Model Program, PN=
+explode Planogram items, PH=
+Partial shipment Held, PC=
+Partial shipment Canceled, ER=
+Entered for Release, XS=
+eXploded Successfully and XC=
+Changed after eX"
+MAST_PROG_NAME,CHAR(24),NOT NULL,"The definition of program
+assigned by user."
+MAST_PULL_WHSE,CHAR(2),NOT NULL,"The override warehouse used to
+bill stores from theLexington
+distribution center or Express
+Parts with Values 22 or 91. This
+option overrides the normal
+distribution center in which the
+items are pulled."
+MAST_FORCAST_UPD,CHAR(1),NOT NULL,Not used.
+MAST_USERID,CHAR(8),NOT NULL,The user identification logon id.
+MAST_RESERVE_FLAG,CHAR(1),NOT NULL,"Indicates whether or not
+automatic billing deals with
+store reserves where Y=yes."
+MAST_RESV_STRT_DTE,DATE,NULL,The reserve inventory start date.
+MAST_RESV_END_DATE,DATE,NULL,The reserve inventory end date.
+"Index(s) of ""TPROG"" Table"
+Create Statement
+""
+"CREATE UNIQUE INDEX PROGX1 ON TPROG
+(
+MAST_PROG_NBR         ASC
+)
+;"
+"Child Relationship(s) of ""TPROG"" Table"
+Alter Statement
+"Table(s) of ""TPROGITM"" Picture Object"
+Owner AB
+Name TPROGITM
+Comment This table contains all the items to be billed for one or more stores during a billing cycle.
+"Column(s) of ""TPROGITM"" Table",,
+Name Datatype,Null Option,Comment
+ITEM_PROG_NBR INTEGER,NOT NULL,The program identifier.
+ITEM_ITEM_NBR INTEGER,NOT NULL,The MSI identifier.
+ITEM_INITIAL_QTY SMALLINT,NOT NULL,The quantity to be ordered.
+"Index(s) of ""TPROGITM"" Table"
+Create Statement
+CREATE UNIQUE INDEX PRGITMX1 ON TPROGITM
+(
+"ITEM_PROG_NBRASC,"
+ITEM_ITEM_NBRASC
+)
+;
+"Child Relationship(s) of ""TPROGITM"" Table"
+Alter Statement
+Table
+Create Statement
+CREATE TABLE TCNTL
+(
+"CNTL_IDCHAR(8) NOT NULL WITH DEFAULT,"
+"CNTL_NEXT_PROG_NBRINTEGER NOT NULL WITH DEFAULT,"
+"CNTL_NEXT_PATT_NBRCHAR(6) NOT NULL WITH DEFAULT,"
+"CNTL_OPEN_ORD_STRSMALLINT NOT NULL WITH DEFAULT,"
+"CNTL_OPEN_ORD_WHSECHAR(2) NOT NULL WITH DEFAULT,"
+CNTL_OPEN_ORD_FLGCHAR(1) NOT NULL WITH DEFAULT
+);
+CREATE TABLE TEXPITEM
+(
+"EXP_STORE_NBRSMALLINT NOT NULL WITH DEFAULT,"
+"EXP_PROG_NBRINTEGER NOT NULL WITH DEFAULT,"
+"EXP_ITEM_NBRINTEGER NOT NULL WITH DEFAULT,"
+"EXP_PATT_NBRCHAR(6) NOT NULL WITH DEFAULT,"
+"EXP_QTY_ORDEREDSMALLINT NOT NULL WITH DEFAULT,"
+"EXP_QTY_SHIPPEDSMALLINT NOT NULL WITH DEFAULT,"
+"EXP_RETRIESSMALLINT NOT NULL WITH DEFAULT,"
+"EXP_LST_SHIPPEDSMALLINT NOT NULL WITH DEFAULT,"
+"EXP_SHIP_DATEDATE,"
+"EXP_STATUS_FLAGCHAR(1) NOT NULL WITH DEFAULT,"
+EXP_STATUS_DATEDATE
+);
+CREATE UNIQUE INDEX EXPITMX1 ON TEXPITEM
+(
+"EXP_STORE_NBRASC,"
+"EXP_PROG_NBRASC,"
+EXP_ITEM_NBRASC
+)
+;
+CREATE INDEX EXPITMX2 ON TEXPITEM
+(
+EXP_PROG_NBRASC
+)
+;
+Definitions
+Table,,
+Owner,Name,Comment
+AB,TCNTL,"This is a control table in Automatic Billing
+for the next program, pattern for a store,
+warehouse and status condition. When table
+is done for a store, the billing clerk needs to
+know if the items billed actually got
+processed before an invoice can be cr"
+AB,TEXPITEM,"This table contains all stores to be billed for
+a particular billing cycle."
+AB,TPATT,"This table contains the customized patterns
+used to select particular stores for a billing
+cycle"
+AB,TPROG,"This table contains the program data used to
+describe billing criteria."
+AB,TPROGITM,"This table contains all the items to be billed
+for one or more stores during a billing cycle."
+"Column(s) of ""TCNTL"" Table",
+Name,Comment
+CNTL_ID,"The value AUTOBILL indicates the record belongs to Automatic
+Billing."
+CNTL_NEXT_PROG_NBR,"The next sequential identifier to be assigned to a program identifier
+which is used throughout the billing cycle."
+CNTL_NEXT_PATT_NBR,"The next sequential pattern identifier to be assigned for selecting the
+criteria to be used in determining which stores to bill."
+CNTL_OPEN_ORD_STR,Not used.
+CNTL_OPEN_ORD_WHSE,Not used.
+CNTL_OPEN_ORD_FLG,Not used.
+"Column(s) of ""TEXPITEM"" Table",
+Name,Comment
+EXP_STORE_NBR,The store identifier.
+EXP_PROG_NBR,The program identifier.
+EXP_ITEM_NBR,"A system-generated MSI identifier used to track all of the items in a
+single billing."
+EXP_PATT_NBR,"A sequential  system-generated identifier assigned to the criteria
+pattern that is used to define the stores to be billed."
+EXP_QTY_ORDERED,The quantity ordered.
+EXP_QTY_SHIPPED,The quantity shipped.
+EXP_RETRIES,The quantity of attempts to bill the things found in a single cycle.
+EXP_LST_SHIPPED,"The previous date when any items were shipped during the billing
+cycle."
+EXP_SHIP_DATE,The date of the most recent shipment.
+EXP_STATUS_FLAG,"Indicates the status of the store program item with values blank, C, D
+and S = ."
+EXP_STATUS_DATE,The date when the status for the store program item was last updated.
+"Column(s) of ""TPATT"" Table",
+Name,Comment
+DIST_PATT_NBR,The pattern identifier assigned by the system.
+DIST_PATT_TYPE,"The pattern type where WH = Warehouse, SS =Store size, CC=
+Climate code, SC=State code, SN=Store identifier, PT=Prototype,
+AD=ADI, EC=End caps, PN=Planogram items, ST=Store Type,
+ZC=Zip code, SV=Sales volume, OT=Order type, SE=Store entry
+and PL=Planogram"
+DIST_PATT_SYMBOL,"The selection type where G=Greater than, L =Less than, E=Equal to,
+X=eXcluding and I=Including."
+DIST_PATT_FROM,The store identifier or low limit of range store identifiers.
+DIST_PATT_TO,The high limit of range of store identifiers.
+DIST_PATT_DATE,The date added
+DIST_PATT_DESC,The user description
+"Column(s) of ""TPROG"" Table",
+Name,Comment
+MAST_PROG_NBR,The program identifier assigned by the system
+MAST_START_DATE,The billing start date.
+MAST_END_DATE,The billing end date.
+MAST_PROG_TYPE,The program type assigned by the user for identification.
+MAST_BILL_TYPE,The billing type where R= Regular and S=Separate.
+MAST_BILL_CYCLE,The billing cycle where R=Regular and I=Immediate
+MAST_DIST_PATT,The pattern identifier assigned by the user to retrieve certain stores.
+MAST_BKORDR_TRIES,The quantity of times to retry billing an order.
+MAST_ENTRY_DATE,The date entered.
+MAST_CHG_DATE,The date changed.
+MAST_CURR_STATUS,"The current status where EN=Entered, RL=Released, XE=eXploded
+Errors, HD=on Hold, MP=Model Program, PN=explode Planogram
+items, PH=Partial shipment Held, PC=Partial shipment Canceled,
+ER=Entered for Release, XS=eXploded Successfully and XC="
+MAST_PROG_NAME,The definition of program assigned by user.
+MAST_PULL_WHSE,"The override warehouse used to bill stores from theLexington
+distribution center or Express Parts with Values 22 or 91. This
+option overrides the normal distribution center in which the items are
+pulled."
+MAST_FORCAST_UPD,Not used.
+MAST_USERID,The user identification logon id.
+MAST_RESERVE_FLAG,"Indicates whether or not automatic billing deals with store reserves
+where Y=yes."
+MAST_RESV_STRT_DTE,The reserve inventory start date.
+MAST_RESV_END_DATE,The reserve inventory end date.
+"Column(s) of ""TPROGITM"" Table",
+Name,Comment
+ITEM_PROG_NBR,The program identifier.
+ITEM_ITEM_NBR,The MSI identifier.
+ITEM_INITIAL_QTY,The quantity to be ordered.

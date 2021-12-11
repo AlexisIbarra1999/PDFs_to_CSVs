@@ -1,0 +1,138 @@
+
+# Get path
+
+os.getcwd()
+os.chdir(r'C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs')
+my_pdfs = os.getcwd()
+print('The Path is:\n', my_pdfs)
+
+print('----------------')
+# Read only PDFs documents
+print('PDFs documents:\n')
+from pathlib import Path
+for pdf_paths in Path(r"C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs").glob("*.pdf"):
+    print(pdf_paths)
+
+# convert PDF into CSV
+tabula.convert_into_by_batch(my_pdfs, output_format='csv', pages="all")
+
+print('----------------')
+# Read only CSVs documents
+print('CSVs documents:\n')
+from pathlib import Path
+for csv_paths in Path(r"C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs").glob("*.csv"):
+    print(csv_paths)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+#for k in range(1, 100):
+# open the pdf file
+object = PyPDF2.PdfFileReader(r"C:\Users\aibar\PycharmProjects\pythonProject\PDFs\ab.pdf")
+
+    # get number of pages
+NumPages = object.getNumPages()
+
+    # define keyterms
+String = "Definitions"
+
+    # extract text and do the search
+for i in range(0, NumPages):
+    PageObj = object.getPage(i)
+    print("this is page ", i)
+    Text = PageObj.extractText()
+    #print(Text)
+    ResSearch = re.findall(String, Text)
+    #if ResSearch == "['Definitions']":
+    print(ResSearch)
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+PDFfilename = r"C:\Users\aibar\PycharmProjects\pythonProject\PDFs\ab.pdf"  #filename of your PDF/directory where your PDF is stored
+
+pfr = PyPDF2.pdf.PageObject(open(PDFfilename, "rb")) #PdfFileReader object
+
+pg4 = pfr.getContents('Definitions')
+
+writer = PyPDF2.PdfFileWriter() #create PdfFileWriter object
+#add pages
+writer.addPage(pg4)
+
+NewPDFfilename = "allTables.pdf" #filename of your PDF/directory where you want your new PDF to be
+with open(NewPDFfilename, "wb") as outputStream:
+    writer.write(outputStream) #write pages to new PDF
+
+
+
+
+    -------------------------------------------
+
+
+
+
+"""
+'/Author': 'H.P. Lovecraft',
+ '/Creator': 'Microsoft® Word 2010',
+ '/CreationDate': "D:20110729214233-04'00'",
+ '/ModDate': "D:20110729214233-04'00'",
+ '/Producer': 'Microsoft® Word 2010'
+"""
+import PyPDF2
+import tabula
+import glob2
+import re
+import os
+import pathlib
+import pdfplumber
+import pandas as pd
+import fitz
+import pikepdf
+import csv
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument
+
+# Get path
+
+os.getcwd()
+os.chdir(r'C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs')
+my_pdfs = os.getcwd()
+print('The Path is:\n', my_pdfs)
+
+print('----------------')
+# Read only PDFs documents
+print('PDFs documents:\n')
+from pathlib import Path
+for pdf_paths in Path(r"C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs").glob("*.pdf"):
+    print(pdf_paths)
+
+# convert PDF into CSV
+tabula.convert_into_by_batch(my_pdfs, output_format='csv', pages="all")
+
+print('----------------')
+# Read only CSVs documents
+print('CSVs documents:\n')
+from pathlib import Path
+for csv_paths in Path(r"C:\\Users\\aibar\\PycharmProjects\\pythonProject\\PDFs").glob("*.csv"):
+    print(csv_paths)
+path = r"C:\Users\aibar\PycharmProjects\pythonProject\PDFs\ab.pdf"
+
+dfs = tabula.read_pdf(path, pages="all")
+
+# Open a PDF document.
+bol = False
+cont = 0
+fp = open(path, 'rb')
+parser = PDFParser(fp)
+password = ""
+document = PDFDocument(parser, password)
+# Get the outlines of the document.
+
+outlines = document.get_outlines()
+for(level,title,dest,a,se) in outlines:
+    if title == "3. 'Definitions' section":
+        bol = True
+    elif title == "Index":
+        bol = False
+    if bol:
+        cont = cont + 1
+        print (' '.join(title.split(' ')[0:]))
+print(cont)
+print(len(dfs))
+print(len(dfs) - cont)
+variable = dfs[len(dfs) - cont: -1]
+print(variable)
